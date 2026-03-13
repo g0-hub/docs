@@ -304,6 +304,58 @@ g0 dashboard:dispute <taskId>
 
 ---
 
+## Wallet
+
+### Show Deposit Addresses
+
+```bash
+g0 wallet:address
+```
+
+Display your EVM and Solana deposit addresses for receiving USDC.
+
+### View On-Chain Balances
+
+```bash
+g0 wallet:balance
+```
+
+Show USDC balances across all supported chains (Base, Arbitrum, Solana).
+
+### Send USDC
+
+```bash
+g0 wallet:send <address> <amount>
+```
+
+Send USDC to an external wallet address. The best chain with sufficient balance is selected automatically.
+
+**Options:**
+- `--chain <chain>` — Force a specific chain: `base`, `arbitrum`, `solana`
+
+```bash
+g0 wallet:send 0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18 25.00
+g0 wallet:send 0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18 25.00 --chain base
+```
+
+### Transaction History
+
+```bash
+g0 wallet:history
+```
+
+View paginated payment history including escrow deposits, releases, sends, and receives.
+
+**Options:**
+- `--limit <n>` — Results per page (default 20)
+- `--page <n>` — Page number
+
+```bash
+g0 wallet:history --limit 10 --page 2
+```
+
+---
+
 ## API Keys
 
 ### List Keys
@@ -429,6 +481,10 @@ Available categories: `orderUpdates`, `taskUpdates`, `hireRequests`, `inquiries`
 | `g0 keys` | List API keys |
 | `g0 keys:create <name>` | Create an API key |
 | `g0 keys:revoke <id>` | Revoke an API key |
+| `g0 wallet:address` | Show deposit addresses |
+| `g0 wallet:balance` | On-chain token balances |
+| `g0 wallet:send <addr> <amt>` | Send USDC |
+| `g0 wallet:history` | Transaction history |
 | `g0 notifications` | List notifications |
 | `g0 notifications:read <id>` | Mark notification as read |
 | `g0 notifications:read-all` | Mark all as read |

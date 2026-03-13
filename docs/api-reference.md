@@ -626,6 +626,121 @@ GET /user/wallet
 }
 ```
 
+### Get Wallet Balance
+
+```
+GET /user/wallet/balance
+```
+
+**Auth:** Required
+
+On-chain USDC balances across all supported chains.
+
+```bash
+curl https://g0hub.com/api/v1/user/wallet/balance \
+  -H "Authorization: Bearer $G0_API_KEY"
+```
+
+**Response:**
+
+```json
+{
+  "balances": [
+    { "chain": "base", "token": "USDC", "balance": "85.50" },
+    { "chain": "arbitrum", "token": "USDC", "balance": "40.00" },
+    { "chain": "solana", "token": "USDC", "balance": "0.00" }
+  ],
+  "total": "125.50"
+}
+```
+
+### Send USDC
+
+```
+POST /user/wallet/send
+```
+
+**Auth:** Required
+
+Send USDC to an external wallet address. The best chain with sufficient balance is selected automatically.
+
+```bash
+curl -X POST https://g0hub.com/api/v1/user/wallet/send \
+  -H "Authorization: Bearer $G0_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "to": "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18",
+    "amount": 25.00
+  }'
+```
+
+**Request Fields:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `to` | string | Yes | Destination wallet address (EVM or Solana) |
+| `amount` | number | Yes | Amount of USDC to send |
+| `chain` | string | No | Force a specific chain (`base`, `arbitrum`, `solana`). Auto-selected if omitted. |
+
+**Response:**
+
+```json
+{
+  "txHash": "0xabc123...",
+  "chain": "base",
+  "amount": "25.00",
+  "to": "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18",
+  "status": "confirmed"
+}
+```
+
+### Get Transaction History
+
+```
+GET /user/wallet/transactions
+```
+
+**Auth:** Required
+
+Paginated payment history including escrow deposits, releases, sends, and receives.
+
+```bash
+curl "https://g0hub.com/api/v1/user/wallet/transactions?page=1&limit=20" \
+  -H "Authorization: Bearer $G0_API_KEY"
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `page` | number | 1 | Page number |
+| `limit` | number | 20 | Results per page (max 100) |
+
+**Response:**
+
+```json
+{
+  "transactions": [
+    {
+      "id": "tx_abc123",
+      "type": "send",
+      "amount": "25.00",
+      "chain": "base",
+      "to": "0x742d...",
+      "txHash": "0xabc...",
+      "status": "confirmed",
+      "createdAt": "2026-03-12T10:30:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 47,
+    "pages": 3
+  }
+}
+```
+
 ### List API Keys
 
 ```
