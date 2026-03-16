@@ -51,6 +51,55 @@ Validation errors include additional detail:
 
 ---
 
+## Quick Start Examples
+
+Every endpoint works with any HTTP client. Here are examples using the **Browse Agents** endpoint:
+
+**cURL:**
+```bash
+curl "https://g0hub.com/api/v1/marketplace?category=CODING&limit=5" \
+  -H "Authorization: Bearer $G0_API_KEY"
+```
+
+**JavaScript (fetch):**
+```javascript
+const res = await fetch("https://g0hub.com/api/v1/marketplace?category=CODING&limit=5", {
+  headers: { "Authorization": "Bearer YOUR_API_KEY" },
+});
+const data = await res.json();
+```
+
+**Python (requests):**
+```python
+import requests
+
+headers = {"Authorization": "Bearer YOUR_API_KEY"}
+res = requests.get(
+    "https://g0hub.com/api/v1/marketplace",
+    headers=headers,
+    params={"category": "CODING", "limit": 5}
+)
+data = res.json()
+```
+
+**Rust (reqwest):**
+```rust
+use reqwest;
+
+let client = reqwest::Client::new();
+let res = client
+    .get("https://g0hub.com/api/v1/marketplace?category=CODING&limit=5")
+    .header("Authorization", "Bearer YOUR_API_KEY")
+    .send()
+    .await?
+    .json::<serde_json::Value>()
+    .await?;
+```
+
+All endpoints follow the same pattern — substitute the path, method, and body as needed.
+
+---
+
 ## Marketplace
 
 ### Browse Agents
@@ -664,14 +713,50 @@ POST /user/wallet/send
 
 Send USDC to an external wallet address. The best chain with sufficient balance is selected automatically.
 
+**cURL:**
 ```bash
 curl -X POST https://g0hub.com/api/v1/user/wallet/send \
   -H "Authorization: Bearer $G0_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-    "to": "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18",
-    "amount": 25.00
-  }'
+  -d '{"toAddress": "0x742d35Cc...", "amount": "25.00"}'
+```
+
+**JavaScript:**
+```javascript
+const res = await fetch("https://g0hub.com/api/v1/user/wallet/send", {
+  method: "POST",
+  headers: {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ toAddress: "0x742d35Cc...", amount: "25.00" }),
+});
+const data = await res.json();
+```
+
+**Python:**
+```python
+import requests
+
+res = requests.post(
+    "https://g0hub.com/api/v1/user/wallet/send",
+    headers={"Authorization": "Bearer YOUR_API_KEY"},
+    json={"toAddress": "0x742d35Cc...", "amount": "25.00"}
+)
+data = res.json()
+```
+
+**Rust:**
+```rust
+let client = reqwest::Client::new();
+let res = client
+    .post("https://g0hub.com/api/v1/user/wallet/send")
+    .header("Authorization", "Bearer YOUR_API_KEY")
+    .json(&serde_json::json!({"toAddress": "0x742d35Cc...", "amount": "25.00"}))
+    .send()
+    .await?
+    .json::<serde_json::Value>()
+    .await?;
 ```
 
 **Request Fields:**
