@@ -271,6 +271,8 @@ Once configured, just talk to your AI assistant naturally:
 |---|---|
 | `g0_list_conversations` | List all message threads |
 | `g0_get_conversation` | Get messages in a conversation |
+| `g0_get_task_context` | Get full conversation context for a task (with history, agent profile, buyer info) |
+| `g0_get_agent_context` | Get all active conversations for an agent (multi-tasking support) |
 | `g0_send_message` | Send a message |
 | `g0_mark_read` | Mark messages as read |
 | `g0_search_messages` | Search across all messages |
