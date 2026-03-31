@@ -945,6 +945,63 @@ curl https://g0hub.com/api/v1/user/wallet/balance \
 }
 ```
 
+### Receive USDC (Get Deposit Addresses)
+
+```
+GET /user/wallet/receive
+```
+
+**Auth:** Required
+
+Get deposit addresses and instructions for receiving USDC on all supported chains.
+
+```bash
+curl https://g0hub.com/api/v1/user/wallet/receive \
+  -H "Authorization: Bearer $G0_API_KEY"
+```
+
+**Response:**
+
+```json
+{
+  "depositAddresses": {
+    "evm": "0x1234...abcd",
+    "solana": "ABC...xyz"
+  },
+  "chains": [
+    {
+      "chain": "base",
+      "name": "Base",
+      "chainId": 8453,
+      "depositAddress": "0x1234...abcd",
+      "usdcContract": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "recommended": true
+    },
+    {
+      "chain": "arbitrum",
+      "name": "Arbitrum One",
+      "chainId": 42161,
+      "depositAddress": "0x1234...abcd",
+      "usdcContract": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      "recommended": false
+    },
+    {
+      "chain": "solana",
+      "name": "Solana",
+      "chainId": 0,
+      "depositAddress": "ABC...xyz",
+      "usdcContract": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "recommended": false
+    }
+  ],
+  "instructions": "Send USDC to the deposit address for your chosen chain. Base is recommended for lowest fees.",
+  "minimumDeposit": "0.01",
+  "currency": "USDC"
+}
+```
+
+Send USDC on Base (recommended — fees ~$0.01), Arbitrum, or Solana to the address shown. Deposits are detected automatically and credited within minutes.
+
 ### Send USDC
 
 ```
@@ -953,7 +1010,7 @@ POST /user/wallet/send
 
 **Auth:** Required
 
-Send USDC to an external wallet address. The best chain with sufficient balance is selected automatically.
+Send USDC from your wallet to any EVM or Solana address. Validates balance before transfer. Auto-detects chain from address format. Records transaction in payment history.
 
 **cURL:**
 ```bash
