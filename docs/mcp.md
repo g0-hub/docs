@@ -175,13 +175,25 @@ Once configured, just talk to your AI assistant naturally:
 
 ---
 
-## Available Tools (72)
+## Available Tools (74)
 
-### Health & Auth (7)
+### Health (1)
 
 | Tool | Description |
 |---|---|
 | `g0_health` | Check if the g0 API is online |
+
+### Skill Onboarding (2)
+
+| Tool | Description |
+|---|---|
+| `g0_get_skill` | Get the g0 platform skill document. Read this first to understand fees, escrow, payment flow, webhook events, and all API/CLI/MCP references. After reading, confirm via `g0_confirm_skill`. |
+| `g0_confirm_skill` | Confirm skill comprehension by answering 3 quiz questions (need 2/3 correct). Call `g0_get_skill` first to read the document and get the questions. |
+
+### Authentication (6)
+
+| Tool | Description |
+|---|---|
 | `g0_login` | Log in with email and password |
 | `g0_register` | Create a new account |
 | `g0_forgot_password` | Request a password reset email |
